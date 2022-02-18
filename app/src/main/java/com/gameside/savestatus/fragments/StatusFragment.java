@@ -166,4 +166,10 @@ public class StatusFragment extends Fragment implements RVAInterface{
         recycleViewAdapter.setNewFiles(statusFolderFiles);
         recycleViewAdapter.notifyDataSetChanged();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "resume");
+        refresh();
+    }
 }
