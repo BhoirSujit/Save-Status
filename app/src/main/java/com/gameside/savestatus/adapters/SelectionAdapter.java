@@ -34,8 +34,6 @@ public class SelectionAdapter {
 
     public void stopSelection(){
         for (int i = 0; i < positionsArray.size(); i++) {
-//            getImageView(positionsArray.get(i))
-//                    .setVisibility(View.INVISIBLE);
             ImageView imageView;
             imageView = getImageView(positionsArray.get(i));
             if (imageView != null){

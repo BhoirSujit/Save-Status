@@ -3,6 +3,7 @@ package com.gameside.savestatus.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
+import android.os.FileUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -31,6 +33,10 @@ import com.gameside.savestatus.utilities.FileUtility;
 import com.gameside.savestatus.utilities.FolderPaths;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class StatusFragment extends Fragment implements RVAInterface{
     View view;
@@ -72,8 +78,12 @@ public class StatusFragment extends Fragment implements RVAInterface{
         holder.getImageView().setOnClickListener(view1 -> {
             if (actionMode != null) {
                 selectionAdapter.selection(position);
+                actionMode.setTitle(selectionAdapter.getPositions().size() + " selected");
             }else{
                 Log.d(TAG, " position is " + position);
+                Intent intent = new Intent(getContext(), MediaPlayerActivity.class);
+                intent.putExtra("filepath", statusFolderFiles[position]);
+                startActivity(intent);
             }
         });
 
@@ -84,6 +94,7 @@ public class StatusFragment extends Fragment implements RVAInterface{
             // Start the CAB using the ActionMode.Callback defined above
             actionMode = requireActivity().startActionMode(multiChoiceModeListener);
             selectionAdapter.selection(position);
+            actionMode.setTitle(selectionAdapter.getPositions().size() + " selected");
             view.isSelected();
             return true;
         });
@@ -106,6 +117,7 @@ public class StatusFragment extends Fragment implements RVAInterface{
             MenuInflater inflater = actionMode.getMenuInflater();
             inflater.inflate(R.menu.saved_context_menu, menu);
             menu.findItem(R.id.toolbar_save_button).setVisible(true);
+
             return true;
         }
 
@@ -114,25 +126,45 @@ public class StatusFragment extends Fragment implements RVAInterface{
             return false;
         }
 
+        @SuppressLint("NonConstantResourceId")
         @Override
         public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
             // Respond to clicks on the actions in the CAB
             switch (menuItem.getItemId()) {
                 case R.id.toolbar_whatsapp_button:
+                    ArrayList<Uri> filelist = new ArrayList<>();
+                    for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
+                        filelist.add(Uri.fromFile(statusFolderFiles[selectionAdapter.getPositions().get(i)]));
+                    }
 
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, filelist);
+                    intent.setType("image/* video/*");
+                    intent.setPackage("com.whatsapp");
+                    startActivity(Intent.createChooser(intent, "share with"));
                     actionMode.finish(); // Action picked, so close the CAB
                     return true;
 
                 case R.id.toolbar_share_button:
+                    ArrayList<Uri> filelist2;
+                    filelist2 = new ArrayList<>();
+                    for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
+                        filelist2.add(Uri.fromFile(statusFolderFiles[selectionAdapter.getPositions().get(i)]));
+                    }
 
+                    Intent intent2 = new Intent(Intent.ACTION_SEND);
+                    intent2.putParcelableArrayListExtra(Intent.EXTRA_STREAM, filelist2);
+                    intent2.setType("image/* video/*");
+                    startActivity(Intent.createChooser(intent2, "share with"));
                     actionMode.finish();
                     return true;
 
                 case R.id.toolbar_save_button:
                     Log.d(TAG, "i am save");
                     for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
-                        fileUtility.copyFile(statusFolderFiles[selectionAdapter.getPositions().get(i)], new File(new FolderPaths().SSStatusFolderPath));
-                        fileUtility.scanFile(new FolderPaths().SSStatusFolderPath + "/" + statusFolderFiles[selectionAdapter.getPositions().get(i)].getName(), getContext());
+                        fileUtility.copyFile(statusFolderFiles[selectionAdapter.getPositions().get(i)],new File(new FolderPaths().getSSStatusFolderPath()));
+                        fileUtility.scanFile(new FolderPaths().getSSStatusFolderPath()+"/" +statusFolderFiles[selectionAdapter.getPositions().get(i)].getName().toString(), getContext());
+
                     }
                     actionMode.finish();
                     return true;

@@ -1,6 +1,8 @@
 package com.gameside.savestatus.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
@@ -23,6 +25,7 @@ import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gameside.savestatus.MediaPlayerActivity;
 import com.gameside.savestatus.R;
 import com.gameside.savestatus.adapters.RecycleViewAdapter;
 import com.gameside.savestatus.adapters.SelectionAdapter;
@@ -31,6 +34,7 @@ import com.gameside.savestatus.utilities.FileUtility;
 import com.gameside.savestatus.utilities.FolderPaths;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class SavedFragment extends Fragment implements RVAInterface{
     View view;
@@ -80,8 +84,12 @@ public class SavedFragment extends Fragment implements RVAInterface{
         holder.getImageView().setOnClickListener(view1 -> {
             if (actionMode != null) {
                 selectionAdapter.selection(position);
+                actionMode.setTitle(selectionAdapter.getPositions().size() + " selected");
             }else{
                 Log.d(TAG, " position is " + position);
+                Intent intent = new Intent(getContext(), MediaPlayerActivity.class);
+                intent.putExtra("filepath", savedFolderFiles[position]);
+                startActivity(intent);
             }
         });
 
@@ -92,6 +100,7 @@ public class SavedFragment extends Fragment implements RVAInterface{
             // Start the CAB using the ActionMode.Callback defined above
             actionMode = requireActivity().startActionMode(multiChoiceModeListener);
             selectionAdapter.selection(position);
+            actionMode.setTitle(selectionAdapter.getPositions().size() + " selected");
             view.isSelected();
             return true;
         });
@@ -123,17 +132,36 @@ public class SavedFragment extends Fragment implements RVAInterface{
             return false;
         }
 
+        @SuppressLint("NonConstantResourceId")
         @Override
         public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
             // Respond to clicks on the actions in the CAB
             switch (menuItem.getItemId()) {
                 case R.id.toolbar_whatsapp_button:
+                    ArrayList<Uri> filelist = new ArrayList<>();
+                    for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
+                        filelist.add(Uri.fromFile(savedFolderFiles[selectionAdapter.getPositions().get(i)]));
+                    }
 
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, filelist);
+                    intent.setType("image/* video/*");
+                    intent.setPackage("com.whatsapp");
+                    startActivity(Intent.createChooser(intent, "share with"));
                     actionMode.finish(); // Action picked, so close the CAB
                     return true;
 
                 case R.id.toolbar_share_button:
+                    ArrayList<Uri> filelist2;
+                    filelist2 = new ArrayList<>();
+                    for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
+                        filelist2.add(Uri.fromFile(savedFolderFiles[selectionAdapter.getPositions().get(i)]));
+                    }
 
+                    Intent intent2 = new Intent(Intent.ACTION_SEND);
+                    intent2.putParcelableArrayListExtra(Intent.EXTRA_STREAM, filelist2);
+                    intent2.setType("image/* video/*");
+                    startActivity(Intent.createChooser(intent2, "share with"));
                     actionMode.finish();
                     return true;
 

@@ -9,13 +9,16 @@
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/drawable/ic_save.xml" value="0.132" />
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/drawable/ic_share.xml" value="0.219" />
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/drawable/ic_whatsapp.xml" value="0.1325" />
-        <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/activity_media_player.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/drawable/vector_drawable_whatsapp_icon.xml" value="0.1" />
+        <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/activity_media_player.xml" value="0.2861111111111111" />
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/fragment_saved.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/fragment_status.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/fragment_tools.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/square_media_holder.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/layout/toolbar_layout.xml" value="0.3392857142857143" />
         <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/menu/saved_context_menu.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Sujit/AndroidStudioProjects/SaveStatus2/app/src/main/res/menu/toolbar_menu.xml" value="0.1" />
       </map>
     </option>
   </component>

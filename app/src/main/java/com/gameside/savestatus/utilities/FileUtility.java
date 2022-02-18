@@ -2,27 +2,21 @@ package com.gameside.savestatus.utilities;
 
 import android.content.Context;
 import android.media.MediaScannerConnection;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 public class FileUtility {
     private final String TAG = "FUTAG";
-
-    public boolean copyFile(File[] InputFiles, File OutputDirectory){
-        boolean Result = true;
-        for (int i = 0; i < InputFiles.length; i++) {
-            if (!copyFile(InputFiles[i], OutputDirectory)){
-                Result = false;
-            }
-        }
-        return Result;
-    }
-
 
     public boolean copyFile(File InputFile, File OutputDirectory) {
         boolean Result;
@@ -42,12 +36,6 @@ public class FileUtility {
             Result = false;
         }
         return Result;
-    }
-
-    public void scanFile(String[] paths, Context context) {
-        for (int i = 0; i < paths.length; i++) {
-            scanFile(paths[i], context);
-        }
     }
 
     public void scanFile(String path, Context context) {

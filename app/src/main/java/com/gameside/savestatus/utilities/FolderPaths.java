@@ -5,14 +5,16 @@ import android.os.Environment;
 import java.io.File;
 
 public class FolderPaths {
-    public String WAStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/WhatsApp/Media/.Statuses";
-    public String SSStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/WhatsManager/Statuses";
+    private String WAStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/WhatsApp/Media/.Statuses";
+
+    private String WAStatusFolderPathNew = Environment.getExternalStorageDirectory().getPath()+"Android/Media/WhatsApp/Media/.Statuses";
+    private String SSStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/WhatsManager/Statuses";
 
     public String getStatusFolderPath() {
         return WAStatusFolderPath;
     }
 
-    public String getWMStatusFolderPath() {
+    public String getSSStatusFolderPath() {
         return SSStatusFolderPath;
     }
 
