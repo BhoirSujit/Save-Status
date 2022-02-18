@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="whatsapp"
+        android:icon="@drawable/ic_whatsapp"
+        android:id="@+id/toolbar_whatsapp_button"/>
+
+    <item android:title="share"
+        android:icon="@drawable/ic_share"
+        android:id="@+id/toolbar_share_button"/>
+
+    <item android:title="delete"
+        android:icon="@drawable/ic_delete"
+        android:id="@+id/toolbar_delete_button"
+        android:visible="false"/>
+
+    <item android:title="save"
+        android:icon="@drawable/ic_save"
+        android:id="@+id/toolbar_save_button"
+        android:visible="false"/>
+
+
+
+</menu>
