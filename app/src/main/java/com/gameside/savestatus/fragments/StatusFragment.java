@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gameside.savestatus.MediaPlayerActivity;
@@ -82,7 +83,7 @@ public class StatusFragment extends Fragment implements RVAInterface{
             }else{
                 Log.d(TAG, " position is " + position);
                 Intent intent = new Intent(getContext(), MediaPlayerActivity.class);
-                intent.putExtra("filepath", statusFolderFiles[position]);
+                intent.putExtra("filepath", statusFolderFiles[position].toString());
                 startActivity(intent);
             }
         });
@@ -164,8 +165,8 @@ public class StatusFragment extends Fragment implements RVAInterface{
                     for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
                         fileUtility.copyFile(statusFolderFiles[selectionAdapter.getPositions().get(i)],new File(new FolderPaths().getSSStatusFolderPath()));
                         fileUtility.scanFile(new FolderPaths().getSSStatusFolderPath()+"/" +statusFolderFiles[selectionAdapter.getPositions().get(i)].getName().toString(), getContext());
-
                     }
+                    Toast.makeText(requireContext(),"File was saved", Toast.LENGTH_LONG).show();
                     actionMode.finish();
                     return true;
                 default:

@@ -14,9 +14,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.ItemKeyProvider;
@@ -88,7 +90,7 @@ public class SavedFragment extends Fragment implements RVAInterface{
             }else{
                 Log.d(TAG, " position is " + position);
                 Intent intent = new Intent(getContext(), MediaPlayerActivity.class);
-                intent.putExtra("filepath", savedFolderFiles[position]);
+                intent.putExtra("filepath", savedFolderFiles[position].toString());
                 startActivity(intent);
             }
         });
@@ -166,16 +168,15 @@ public class SavedFragment extends Fragment implements RVAInterface{
                     return true;
 
                 case R.id.toolbar_delete_button:
-                    for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
-                        boolean delete = savedFolderFiles[selectionAdapter.getPositions().get(i)].delete();
-                        if (!delete){
-                            Log.d(TAG, "error in delete");
-                        }else{
-                            Log.d(TAG, "success delete");
-                        }
-                    }
-                    actionMode.finish();
-                    refresh();
+                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext());
+                     alertDialog.setTitle("Delete the File")
+                            .setMessage("Are you sure to delete this file?")
+                            .setPositiveButton("Yes", (dialogInterface, d) -> {
+                              deleteSelectedFile();
+                              Toast.makeText(view.getContext(), "Deleted successfully", Toast.LENGTH_LONG).show();
+                            })
+                            .setNegativeButton("No",null);
+                     alertDialog.show();
                     return true;
 
                 default:
@@ -189,6 +190,20 @@ public class SavedFragment extends Fragment implements RVAInterface{
             selectionAdapter.stopSelection();
         }
     };
+
+    public void deleteSelectedFile(){
+        Log.d(TAG, "pohochatay");
+        for (int i = 0; i < selectionAdapter.getPositions().size(); i++) {
+            boolean delete = savedFolderFiles[selectionAdapter.getPositions().get(i)].delete();
+            if (!delete){
+                Log.d(TAG, "error in delete");
+            }else{
+                Log.d(TAG, "success delete");
+            }
+        }
+        actionMode.finish();
+        refresh();
+    }
 
     @Override
     public void onPause() {

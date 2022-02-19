@@ -6,9 +6,14 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:navigationBarColor">@color/white</item>
 
+        <item name="android:textColor">@color/black</item>
+
+
+
         <!--action mode-->
         <item name="actionModeBackground">@color/pine_green</item>
         <item name="windowActionModeOverlay">true</item>
+
 
 
 
