@@ -44,15 +44,6 @@ public class SelectionAdapter {
     }
 
     private ImageView getImageView(int position){
-//        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
-//        Log.d(TAG, "getimage position is " + position);
-//        View view = viewHolder.itemView;
-//        return view.findViewById(R.id.isSelected);
-
-//        return recyclerView
-//                .findViewHolderForLayoutPosition(position)
-//                .itemView
-//                .findViewById(R.id.isSelected);
         RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
         Log.d(TAG, "getimage position is " + position);
         ImageView imageView = null;

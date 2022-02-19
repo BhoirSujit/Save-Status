@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             case R.id.menu_share_option:
-
+                shareApp();
                 return true;
 
             case R.id.menu_how_to_use_option:
@@ -101,11 +102,21 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_more_apps_option:
-
+                Uri webpage3 = Uri.parse("https://gamesidein.blogspot.com/");
+                Intent webIntent3 = new Intent(Intent.ACTION_VIEW, webpage3);
+                startActivity(webIntent3);
                 return true;
 
             case R.id.menu_privacy_policy_option:
+                Uri webpage = Uri.parse("https://gamesidein.blogspot.com/p/privacy-and-policy-save-status.html");
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                startActivity(webIntent);
+                return true;
 
+            case R.id.menu_term_condition_option:
+                Uri webpage2 = Uri.parse("https://gamesidein.blogspot.com/p/term-and-condition-save-status.html");
+                Intent webIntent2 = new Intent(Intent.ACTION_VIEW, webpage2);
+                startActivity(webIntent2);
                 return true;
 
             default:
@@ -131,6 +142,33 @@ public class MainActivity extends AppCompatActivity {
             tab.setText(tabTitle[position]);
         });
         tabLayoutMediator.attach();
+    }
+
+    public void shareApp(){
+        if(Build.VERSION_CODES.P >= Build.VERSION.SDK_INT){
+            String apk = "";
+            String uri = ("com.gameside.savestatus");
+
+            try {
+                android.content.pm.PackageInfo pi = getPackageManager().getPackageInfo(uri, android.content.pm.PackageManager.GET_ACTIVITIES);
+
+                apk = pi.applicationInfo.publicSourceDir;
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+            }
+            Intent sharefileint = new Intent(Intent.ACTION_SEND);
+            sharefileint.setType("*/*");
+            sharefileint.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new java.io.File(apk)));
+
+            startActivity(Intent.createChooser(sharefileint, "Share APK"));
+        }else{
+            Uri download_link = Uri.parse("https://gamesidein.blogspot.com/p/save-status.html");
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, "Do you want to save you status? Download now Save Status app : "+ download_link);
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, "Share using"));
+        }
+
     }
 
 }

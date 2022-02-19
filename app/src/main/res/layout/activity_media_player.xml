@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/titleText"
-            android:text="untitiled"
+            android:text=""
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
@@ -73,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:elevation="10dp"
                 android:orientation="vertical"
                 tools:ignore="UseCompoundDrawables">
 

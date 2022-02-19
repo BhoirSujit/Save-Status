@@ -1,17 +1,24 @@
 package com.gameside.savestatus.utilities;
 
+import android.os.Build;
 import android.os.Environment;
+import android.os.FileUtils;
 
 import java.io.File;
 
 public class FolderPaths {
-    private String WAStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/WhatsApp/Media/.Statuses";
+    private final String WAStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/WhatsApp/Media/.Statuses";
 
-    private String WAStatusFolderPathNew = Environment.getExternalStorageDirectory().getPath()+"Android/Media/WhatsApp/Media/.Statuses";
-    private String SSStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/WhatsManager/Statuses";
+    private final String WAStatusFolderPathNew = Environment.getExternalStorageDirectory().getPath()+"Android/Media/WhatsApp/Media/.Statuses";
+    private final String SSStatusFolderPath = Environment.getExternalStorageDirectory().getPath()+"/Save Status/Statuses";
+
 
     public String getStatusFolderPath() {
-        return WAStatusFolderPath;
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P){
+            return WAStatusFolderPath;
+        }else {
+            return WAStatusFolderPathNew;
+        }
     }
 
     public String getSSStatusFolderPath() {

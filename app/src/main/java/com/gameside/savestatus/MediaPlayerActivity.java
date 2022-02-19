@@ -97,7 +97,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         viewPager.setCurrentItem(clickedFileIndex, false);
 
         //delete or save?
-        if (fileParentPath.toString().equals(Environment.getExternalStorageDirectory().getPath() + "/WhatsApp/Media/.Statuses")) {
+        if (fileParentPath.toString().equals( new FolderPaths().getStatusFolderPath())) {
             saveTextView.setText("SAVE");
             saveImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_save));
             saveMethod();
