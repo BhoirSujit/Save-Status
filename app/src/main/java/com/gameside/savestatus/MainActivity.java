@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_how_to_use_option:
+                Intent intent = new Intent(this, HowToSaveActivity.class);
+                startActivity(intent);
 
                 return true;
 
