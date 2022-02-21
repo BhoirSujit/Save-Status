@@ -1,6 +1,7 @@
 package com.gameside.savestatus;
 
 import static android.content.ContentValues.TAG;
+import static android.service.notification.Condition.SCHEME;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -11,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,15 +20,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,10 +61,13 @@ public class FlashActivity extends AppCompatActivity {
 
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-        resultLauncher();
 
         //check for permission
-        if (checkPermission()){
+        boolean isInstalled = isAppInstalled(this,"com.whatsapp");
+        if(!isInstalled){
+            Toast.makeText(this, "You Don't have whatsapp, plz install and try again", Toast.LENGTH_LONG).show();
+            finish();
+        }else if (checkPermission()){
             //permission granted
             Log.d(TAG, "permission granted");
             createDirectories();
@@ -67,6 +77,17 @@ public class FlashActivity extends AppCompatActivity {
             requestPermission();
         }
 
+    }
+
+    public static boolean isAppInstalled(Context context, String packageName) {
+        try {
+            context.getPackageManager().getApplicationInfo(packageName, 0);
+            return true;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+
+            return false;
+        }
     }
 
     public void startMainActivity(){
@@ -101,13 +122,9 @@ public class FlashActivity extends AppCompatActivity {
         builder.setPositiveButton("AGREE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                    getAccess();
-                }else{
-                    ActivityCompat.requestPermissions(FlashActivity.this, new String[] {
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    },1);
-                }
+                ActivityCompat.requestPermissions(FlashActivity.this, new String[] {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                },1);
             }
         });
         builder.setNegativeButton("Cancel ", new DialogInterface.OnClickListener() {
@@ -123,17 +140,63 @@ public class FlashActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted. Continue the action or workflow
+                // in your app.
                 recreate();
-
             } else {
-                finish();
+                // Explain to the user that the feature is unavailable because
+                // the features requires a permission that the user has denied.
+                // At the same time, respect the user's decision. Don't link to
+                // system settings in an effort to convince the user to change
+                // their decision.
+                Log.d(TAG, "deny kel");
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Toast.makeText(this, "allow storage permission", Toast.LENGTH_LONG).show();
+                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+
             }
         }
+        // Other 'case' lines to check for other
+        // permissions this app might request.
 
     }
+
+    //    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void getWAFolderAccess() {
+//        // Choose a directory using the system's file picker.
+//        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+//
+//        // Optionally, specify a URI for the directory that should be opened in
+//        // the system file picker when it loads.
+//        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse("primary:Android/media/com.whatsapp/"));
+//
+//        startActivityForResult(intent, 1);
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode,
+//                                 Intent resultData) {
+//        super.onActivityResult(requestCode, resultCode, resultData);
+//        if (requestCode == 1
+//                && resultCode == Activity.RESULT_OK) {
+//            // The result data contains a URI for the document or directory that
+//            // the user selected.
+//            Uri uri = null;
+//            if (resultData != null) {
+//                uri = resultData.getData();
+//                // Perform operations on the document using its URI.
+//                ActivityCompat.requestPermissions(FlashActivity.this, new String[] {
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                },1);
+//                Log.d(TAG, "result data " + uri);
+//            }
+//        }
+//    }
 
     public void createDirectories(){
         FolderPaths folderPaths = new FolderPaths();
@@ -150,35 +213,5 @@ public class FlashActivity extends AppCompatActivity {
         }
 
     }
-
-    private void getAccess(){
-        uri = DocumentsContract.buildDocumentUri("com.android.externalstorage.documents", "primary:Android/media/com.whatsapp/WhatsApp/Media/.Statuses/");
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        intent.putExtra("android.provider.extra.INITIAL_URI", (Parcelable)DocumentsContract.buildDocumentUri((String)"com.android.externalstorage.documents", "primary:Android/media/com.whatsapp/WhatsApp/Media/.Statuses/"));
-
-    }
-
-    public void resultLauncher(){
-        activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-
-                            uri = null;
-                            uri = Objects.requireNonNull(data).getData();
-
-                            getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                            Log.d(TAG,"uri is : " + uri.toString());
-
-                            recreate();
-                        }
-                    }
-                }
-        );
-    }
-
 
 }

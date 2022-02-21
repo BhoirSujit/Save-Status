@@ -2,10 +2,13 @@ package com.gameside.savestatus.utilities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.gameside.savestatus.MainActivity;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -21,6 +24,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 public class AdmobUtility {
 
     final String TAG = "AUTAG";
+    private boolean timeLimiter;
 
     public AdmobUtility(Context context){
         MobileAds.initialize(context, new OnInitializationCompleteListener() {
@@ -72,6 +76,11 @@ public class AdmobUtility {
 
     //for interstial ads
     private InterstitialAd mInterstitialAd;
+
+    public void interstitialAd(Context context){
+        interstitialAd(context, "ca-app-pub-3940256099942544/1033173712");
+    }
+
     public void interstitialAd(Context context, String adUnit){
 
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -87,6 +96,8 @@ public class AdmobUtility {
                     public void onAdDismissedFullScreenContent() {
                         // Called when fullscreen content is dismissed.
                         Log.d(TAG, "The ad was dismissed.");
+                        interstitialAd(context, adUnit);
+                        TimerLimit();
                     }
 
                     @Override
@@ -113,14 +124,25 @@ public class AdmobUtility {
         });
     }
 
-    //load interstial ad
-    public void loadInterstialAd(Context context){
-        //load interstial ad
-        if (mInterstitialAd != null) {
+    //load interstitial ad
+    public void loadInterstitialAd(Context context){
+        //load interstitial ad
+        if (mInterstitialAd != null && !timeLimiter) {
             mInterstitialAd.show((Activity) context);
         } else {
             Log.d(TAG, "The interstitial ad wasn't ready yet.");
         }
+    }
+
+    public void TimerLimit(){
+        timeLimiter = true;
+        android.os.Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                timeLimiter = false;
+            }
+        }, 10000);
     }
 
 

@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SaveStatus" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.SaveStatus" parent="Theme.MaterialComponents.Light">
+
         <item name="colorPrimaryDark">@color/pine_green</item>
         <item name="colorPrimary">@color/pine_green</item>
         <item name="android:textColorPrimary">@color/white</item>

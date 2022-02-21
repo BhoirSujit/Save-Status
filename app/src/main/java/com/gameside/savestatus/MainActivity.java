@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
     AdView adView;
+    public AdmobUtility admobUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +56,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         //admob initialize
-        AdmobUtility admobUtility = new AdmobUtility(this);
+        admobUtility = new AdmobUtility(this);
 
         //banner ad
         adView = binding.adView;
         admobUtility.bannerAd(adView);
 
+        //load intertial ad
+        admobUtility.interstitialAd(this, "ca-app-pub-1757707746288682/4260912700");
 
         //call important methods
         setupViewPagerWithTabLayout();
@@ -173,4 +176,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        admobUtility.loadInterstitialAd(this);
+    }
 }

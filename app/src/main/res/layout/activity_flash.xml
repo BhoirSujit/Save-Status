@@ -5,7 +5,6 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/ThemeOverlay.SaveStatus.FullscreenContainer"
     tools:context=".FlashActivity">
 
     <ImageView

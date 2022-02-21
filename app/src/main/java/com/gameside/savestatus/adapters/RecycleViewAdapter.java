@@ -27,8 +27,10 @@ import com.bumptech.glide.Glide;
 import com.gameside.savestatus.R;
 import com.gameside.savestatus.fragments.SavedFragment;
 import com.gameside.savestatus.interfaces.RVAInterface;
+import com.gameside.savestatus.utilities.FolderPaths;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
@@ -42,6 +44,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     public RecycleViewAdapter(File[] files, RVAInterface rvaInterface) {
         this.files = files;
+        Log.d(TAG, "status file is " + Arrays.toString(files));
+        File[] files1 = new File(new FolderPaths().getStatusFolderPath()).listFiles();
+        Log.d(TAG, "status file is " + Arrays.toString(files1));
+        Log.d(TAG, "status exist " + new File(new FolderPaths().getStatusFolderPath()).exists());
+
+
         this.rvaInterface = rvaInterface;
     }
 
