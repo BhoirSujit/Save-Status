@@ -37,7 +37,7 @@ public class ToolsFragment extends Fragment {
                     fileUtility.scanFile(folderPaths.getSSStatusFolderPath()+"/"+folderPaths.getWAStatusFolderFiles()[i].getName(), getContext());
                 }
                 ((MainActivity) requireActivity()).admobUtility.loadInterstitialAd(getContext());
-                Toast.makeText(getContext(), "File Saved successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), folderPaths.getWAStatusFolderFiles().length+" Status Saved successfully", Toast.LENGTH_LONG).show();
             }
         });
 

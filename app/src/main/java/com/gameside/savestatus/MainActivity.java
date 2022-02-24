@@ -1,13 +1,17 @@
 package com.gameside.savestatus;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
@@ -25,13 +29,24 @@ import com.gameside.savestatus.fragments.StatusFragment;
 import com.gameside.savestatus.fragments.ToolsFragment;
 import com.gameside.savestatus.adapters.ViewPageAdapter;
 import com.gameside.savestatus.utilities.AdmobUtility;
+import com.gameside.savestatus.utilities.UpdateUtility;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -54,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //update check
+        new UpdateUtility(this);
+
 
         //admob initialize
         admobUtility = new AdmobUtility(this);
@@ -69,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
         setupViewPagerWithTabLayout();
 
         Objects.requireNonNull(getSupportActionBar()).setElevation(0);
+
+
+
+
 
     }
 
@@ -134,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = binding.tabLayout;
         ViewPager2 viewPager2 = binding.viewPager2;
 
+
         ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(new StatusFragment());
         fragmentArrayList.add(new SavedFragment());
@@ -181,4 +204,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         admobUtility.loadInterstitialAd(this);
     }
+
+
 }

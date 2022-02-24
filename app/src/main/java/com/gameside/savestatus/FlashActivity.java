@@ -116,7 +116,7 @@ public class FlashActivity extends AppCompatActivity {
     }
     public void requestPermission(){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_DialogBox);
         builder.setTitle("Need Storage Permission");
         builder.setMessage("For saving whatsapp status we need storage permission");
         builder.setPositiveButton("AGREE", new DialogInterface.OnClickListener() {
@@ -133,6 +133,7 @@ public class FlashActivity extends AppCompatActivity {
                 finish();
             }
         });
+        builder.setCancelable(false);
         builder.show();
 
     }
@@ -158,6 +159,7 @@ public class FlashActivity extends AppCompatActivity {
                 Uri uri = Uri.fromParts("package", this.getPackageName(), null);
                 intent.setData(uri);
                 startActivity(intent);
+                finish();
 
             }
         }

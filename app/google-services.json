@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "284648820989",
+    "firebase_url": "https://save-status-1a838-default-rtdb.firebaseio.com",
+    "project_id": "save-status-1a838",
+    "storage_bucket": "save-status-1a838.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284648820989:android:a8a33f7979ef0492f8ee94",
+        "android_client_info": {
+          "package_name": "com.gameside.savestatus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284648820989-g8ktfpqdpjbc1uvii37ub7mmb3khrgkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtiZMauFIRoa7JItL5wqGcwse_Ejb4SOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284648820989-g8ktfpqdpjbc1uvii37ub7mmb3khrgkr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

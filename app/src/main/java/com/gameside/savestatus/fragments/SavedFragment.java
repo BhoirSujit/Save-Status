@@ -59,7 +59,6 @@ public class SavedFragment extends Fragment implements RVAInterface{
         savedFolderFiles = folderPaths.getSSStatusFolderFiles();
 
         //call important methods
-
         fileUtility = new FileUtility();
 
         setRecycleViewAdapter();
@@ -168,12 +167,12 @@ public class SavedFragment extends Fragment implements RVAInterface{
                     return true;
 
                 case R.id.toolbar_delete_button:
-                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext());
+                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext(), R.style.Theme_DialogBox);
                      alertDialog.setTitle("Delete the File")
                             .setMessage("Are you sure to delete this file?")
                             .setPositiveButton("Yes", (dialogInterface, d) -> {
                               deleteSelectedFile();
-                              Toast.makeText(view.getContext(), "Deleted successfully", Toast.LENGTH_LONG).show();
+                              Toast.makeText(view.getContext(),selectionAdapter.getPositions().size() + " Status Deleted successfully", Toast.LENGTH_LONG).show();
                             })
                             .setNegativeButton("No",null);
                      alertDialog.show();

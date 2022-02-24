@@ -6,9 +6,7 @@
         <item name="colorPrimary">@color/pine_green</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:navigationBarColor">@color/white</item>
-
         <item name="android:textColor">@color/black</item>
-
 
         <!--action mode-->
         <item name="actionModeBackground">@color/pine_green</item>
@@ -37,12 +35,16 @@
         <item name="tabIndicatorColor">@color/white</item>
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabSelectedTextColor">@color/white</item>
-
-
     </style>
 
     <style name="Theme.SaveStatus.Fullscreen" parent="Theme.SaveStatus">
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.DialogBox" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="backgroundColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="colorPrimary">@color/pine_green</item>
     </style>
     
 

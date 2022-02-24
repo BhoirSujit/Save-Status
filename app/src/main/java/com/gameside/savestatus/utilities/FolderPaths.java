@@ -20,6 +20,7 @@ public class FolderPaths {
 //        }else {
 //            return WAStatusFolderPathNew;
 //        }
+
         if (new File(WAStatusFolderPath).exists()){
             return WAStatusFolderPath;
         }else {

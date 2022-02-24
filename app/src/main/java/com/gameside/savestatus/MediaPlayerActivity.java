@@ -179,7 +179,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         binding.deleteLayout.setOnClickListener(view -> {
             String resLink = filesList.get(viewPager.getCurrentItem()).toString();
 
-            new AlertDialog.Builder(view.getContext())
+            new AlertDialog.Builder(view.getContext(), R.style.Theme_DialogBox)
                     .setTitle("Delete the File")
                     .setMessage("Are you sure to delete this file?")
                     .setPositiveButton("Yes", (dialogInterface, i) -> {
