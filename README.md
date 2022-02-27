@@ -1,2 +1,4 @@
 # Save-Status
-save status
+save status is project of android,
+whitch maded for saving whatsapp status.
+
